@@ -1,3 +1,10 @@
 spring:
   application:
     name: gametogether
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gametogether
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: create
