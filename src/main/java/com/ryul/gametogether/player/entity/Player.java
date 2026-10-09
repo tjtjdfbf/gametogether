@@ -15,6 +15,7 @@ public class Player {
     private Long id;
 
     @NotBlank
+    @NotNull 
     @Column(nullable = false, unique = true, length = 30)
     private String loginId;
 
