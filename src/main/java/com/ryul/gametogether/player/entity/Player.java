@@ -25,4 +25,24 @@ public class Player {
 
     @Column(length = 30)
     private String name;
+
+    protected Player() {
+
+    }
+
+    public Player(String loginId, String password, String name) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+    }
+
+    private String changePassword(String encodedPassword) {
+        this.password = encodedPassword;
+        return "암호 변경 완료";
+    }
+
+    private String ChangeName(String requestName) {
+        this.name = requestName;
+        return "닉네임 변경 완료";
+    }
 }
