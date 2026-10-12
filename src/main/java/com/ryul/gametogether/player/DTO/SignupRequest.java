@@ -6,11 +6,12 @@ import lombok.Setter;
 
 @Getter 
 @Setter 
-public class PlayerSignupRequest {
+public class SignupRequest {
 
     @NotBlank 
     private String loginId;
 
+    @NotBlank 
     private String password;
 
     private String name;

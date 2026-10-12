@@ -8,3 +8,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    issuer: gametogether
+    access-token-ttl-minutes: 15
+logging:
+  level:
+    org.springframework.security: DEBUG

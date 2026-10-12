@@ -7,8 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 
 @Entity
+@Getter 
 public class Player {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -19,6 +21,7 @@ public class Player {
     @Column(nullable = false, unique = true, length = 30)
     private String loginId;
 
+    @NotBlank 
     @NotNull
     @Column(nullable = false, length = 255)
     private String password;

@@ -1,9 +1,14 @@
 package com.ryul.gametogether.player.service;
 
+import com.ryul.gametogether.jwt.JwtService;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ryul.gametogether.player.DTO.PlayerSignupRequest;
+import com.ryul.gametogether.exception.InvalidCredentialsException;
+import com.ryul.gametogether.player.DTO.LoginRequest;
+import com.ryul.gametogether.player.DTO.LoginResponse;
+import com.ryul.gametogether.player.DTO.SignupRequest;
 import com.ryul.gametogether.player.entity.Player;
 import com.ryul.gametogether.player.repository.PlayerRepository;
 
@@ -13,21 +18,41 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor  
 public class PlayerService {
 
+    private final JwtService jwtService;
     private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public String addPlayer(PlayerSignupRequest request) {
+    public Long addPlayer(SignupRequest request) {
         
-        if (playerRepository.existsByLoginId(request.getLoginId())) {
-            return "중복된 아이디입니다.";
-        }
+        // if (playerRepository.existsByLoginId(request.getLoginId())) {
+        //     return "중복된 아이디입니다.";
+        // } 예외처리 필요
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         Player player = new Player(request.getLoginId(), encodedPassword, request.getName());
 
-        playerRepository.save(player);
+        player = playerRepository.save(player);
         
-        return "회원가입 완료"; 
+        return player.getId(); 
+    }
+
+    public LoginResponse login(LoginRequest request) {
+
+        Player foundPlayer = playerRepository.findByLoginId(request.getLoginId())
+            .orElseThrow(InvalidCredentialsException::new);
+
+        String accessToken = "";
+        if(passwordEncoder.matches(request.getPassword(), foundPlayer.getPassword())) {
+            accessToken = jwtService.createAccessToken(foundPlayer);
+        } else {throw new InvalidCredentialsException();}
+        
+        return new LoginResponse(
+            accessToken,
+            "Bearer",
+            jwtService.getAccessTokenValiditySeconds(),
+            foundPlayer.getId(),
+            foundPlayer.getName()
+        );
     }
 }
