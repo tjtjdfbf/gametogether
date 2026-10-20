@@ -36,10 +36,6 @@ public class PlayerGameService {
 
         // 중복 게임 리스트 = existPlayerGames
         List<PlayerGame> existPlayerGames = playerGameRepository.findByPlayerGame_IdAndGame_IdIn(playerId, gameIds);
-        // 중복 게임 id 추출 = existingGameIds
-        Set<Long> existingGameIds = existPlayerGames.stream()
-            .map(playerGame -> playerGame.getGame().getId())
-            .collect(Collectors.toSet());
 
         // PlayerGame 저장용 유저 엔티티 생성
         Player player = playerRepository.findById(playerId)
