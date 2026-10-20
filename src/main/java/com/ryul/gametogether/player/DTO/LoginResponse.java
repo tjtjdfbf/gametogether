@@ -1,14 +1,10 @@
 package com.ryul.gametogether.player.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter 
-@AllArgsConstructor 
-public class LoginResponse {
-    private String accessToekn;
-    private String tokenType;
-    private long expiresIn;
-    private Long playerId;
-    private String name;
-}
+public record LoginResponse( 
+    String accessToekn,
+    String tokenType,
+    long expiresIn,
+    Long playerId,
+    String name
+) {}

@@ -1,18 +1,10 @@
 package com.ryul.gametogether.player.DTO;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter 
-@Setter 
-public class SignupRequest {
-
+public record SignupRequest (
     @NotBlank 
-    private String loginId;
-
+    String loginId,
     @NotBlank 
-    private String password;
-
-    private String name;
-}
+    String password,
+    String name
+) {}

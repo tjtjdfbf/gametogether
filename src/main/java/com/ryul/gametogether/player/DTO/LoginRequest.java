@@ -1,14 +1,11 @@
 package com.ryul.gametogether.player.DTO;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter 
-@Setter 
-public class LoginRequest {
+
+public record LoginRequest (
     @NotBlank
-    private String loginId;
+    String loginId,
     @NotBlank
-    private String password;
-}
+    String password
+) {}

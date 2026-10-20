@@ -28,9 +28,9 @@ public class PlayerService {
         //     return "중복된 아이디입니다.";
         // } 예외처리 필요
 
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        String encodedPassword = passwordEncoder.encode(request.password());
 
-        Player player = new Player(request.getLoginId(), encodedPassword, request.getName());
+        Player player = new Player(request.loginId(), encodedPassword, request.name());
 
         player = playerRepository.save(player);
         
@@ -39,11 +39,11 @@ public class PlayerService {
 
     public LoginResponse login(LoginRequest request) {
 
-        Player foundPlayer = playerRepository.findByLoginId(request.getLoginId())
+        Player foundPlayer = playerRepository.findByLoginId(request.loginId())
             .orElseThrow(InvalidCredentialsException::new);
 
         String accessToken = "";
-        if(passwordEncoder.matches(request.getPassword(), foundPlayer.getPassword())) {
+        if(passwordEncoder.matches(request.password(), foundPlayer.getPassword())) {
             accessToken = jwtService.createAccessToken(foundPlayer);
         } else {throw new InvalidCredentialsException();}
         
