@@ -40,7 +40,7 @@ public class PlayerGameService {
             .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
 
         List<PlayerGame> toSave = requestgames.stream()
-            .filter(game -> !existPlayerGames.contains(game.getId()))
+            .filter(game -> existPlayerGames.stream().noneMatch(pg -> pg.getGame().getId().equals(game.getId())))
             .map(game -> new PlayerGame(player, game))
             .toList();
 

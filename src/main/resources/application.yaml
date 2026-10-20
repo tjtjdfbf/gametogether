@@ -8,6 +8,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+    # 테이블 생성 후 data.sql 실행토록
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
 security:
   jwt:
     secret: ${JWT_SECRET}
