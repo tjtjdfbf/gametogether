@@ -22,6 +22,7 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/players", "/auth/login").permitAll()
+                .requestMatchers(HttpMethod.GET, "/games").permitAll()
                 .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                 .anyRequest().authenticated()
             )
