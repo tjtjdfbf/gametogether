@@ -7,10 +7,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter 
+@NoArgsConstructor (access = AccessLevel.PROTECTED)
 public class Player {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -28,10 +31,6 @@ public class Player {
 
     @Column(length = 30)
     private String name;
-
-    protected Player() {
-
-    }
 
     public Player(String loginId, String password, String name) {
         this.loginId = loginId;
