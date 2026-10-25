@@ -27,7 +27,12 @@ public class SessionService {
 
 		Session newSession = new Session(player);
 
-		sessionRepository.save(newSession);
+		newSession = sessionRepository.save(newSession);
+
+		// 생성한 세션의 멤버로 호스트를 추가
+		SessionMember sessionMember = new SessionMember(newSession, player);
+
+		sessionMemberRepository.save(sessionMember);
 
 		SessionResponse newSessionDto = new SessionResponse(
 			newSession.getHost().getId(),
@@ -47,7 +52,7 @@ public class SessionService {
 		Player player = playerRepository.findById(playerId)
 			.orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
 
-		if (!sessionMemberRepository.existsBySession_IdAndPlayer_Id(sessionId, playerId)) {
+		if (sessionMemberRepository.existsBySession_IdAndPlayer_Id(sessionId, playerId)) {
 			throw new IllegalStateException("이미 참가한 세션입니다.");
 		}
 
