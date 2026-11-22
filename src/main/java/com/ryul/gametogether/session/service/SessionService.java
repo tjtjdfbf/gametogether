@@ -127,7 +127,6 @@ public class SessionService {
 				.map(time -> new SessionMemberTimeSelection(member, time))
 				.toList();
 			
-	
 			timeSelectionRepository.deleteByMemberId(member.getId());
 			timeSelectionRepository.flush();
 	
