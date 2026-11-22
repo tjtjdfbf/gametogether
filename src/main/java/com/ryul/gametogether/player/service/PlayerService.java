@@ -24,9 +24,9 @@ public class PlayerService {
 
     public Long addPlayer(SignupRequest request) {
         
-        // if (playerRepository.existsByLoginId(request.getLoginId())) {
-        //     return "중복된 아이디입니다.";
-        // } 예외처리 필요
+        if (playerRepository.existsByLoginId(request.loginId())) {
+            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+        }
 
         String encodedPassword = passwordEncoder.encode(request.password());
 

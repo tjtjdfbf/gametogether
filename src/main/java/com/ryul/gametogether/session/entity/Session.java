@@ -18,8 +18,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 
 @Entity 
+@Getter 
 public class Session {
     @Id 
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -33,17 +35,33 @@ public class Session {
     @NotNull
     @Enumerated (EnumType.STRING)
     @Column (name = "status", nullable = false)
-    private SessionStatus status;
+    private SessionStatus status = SessionStatus.OPEN;
     
-    @Column (name = "selected_time", nullable = false)
+    @Column (name = "selected_time", nullable = true)
     private LocalDateTime selectedTime;
     
     @ManyToOne
-    @JoinColumn (name = "selected_game_id", nullable = false)
+    @JoinColumn (name = "selected_game_id", nullable = true)
     private Game selectedGame;
     
-    @NotNull
     @CreationTimestamp 
-    @Column (name = "created_at", nullable = false, updatable = false)
+    @Column (name = "created_at", nullable = true, updatable = false)
     private LocalDateTime createdAt;
+
+    protected Session() {}
+
+    // 세션 생성용 생성자
+    public Session(Player player) {
+        this.host = player;
+    }
+
+    public void confirm(Game game, LocalDateTime selectedTime) {
+        if (this.status != SessionStatus.OPEN) {
+            throw new IllegalStateException("확정할 수 없는 세션 상태입니다.");
+        }
+        this.selectedGame = game;
+        this.selectedTime = selectedTime;
+        this.status = SessionStatus.CONFIRMED;
+    }
+
 }

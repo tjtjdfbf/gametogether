@@ -1,8 +1,6 @@
 package com.ryul.gametogether.player.service;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -21,9 +19,9 @@ import lombok.RequiredArgsConstructor;
 @Service 
 @RequiredArgsConstructor 
 public class PlayerGameService {
-    private PlayerGameRepository playerGameRepository;
-    private PlayerRepository playerRepository;
-    private GameRepository gameRepository;
+    private final PlayerGameRepository playerGameRepository;
+    private final PlayerRepository playerRepository;
+    private final GameRepository gameRepository;
 
     public AddPlayerGameResponse addGames(AddPlayerGameRequest request, Long playerId) {
 
@@ -35,14 +33,14 @@ public class PlayerGameService {
         List<Game> requestgames = gameRepository.findAllById(gameIds);
 
         // 중복 게임 리스트 = existPlayerGames
-        List<PlayerGame> existPlayerGames = playerGameRepository.findByPlayerGame_IdAndGame_IdIn(playerId, gameIds);
+        List<PlayerGame> existPlayerGames = playerGameRepository.findByPlayer_IdAndGame_IdIn(playerId, gameIds);
 
         // PlayerGame 저장용 유저 엔티티 생성
         Player player = playerRepository.findById(playerId)
             .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
 
         List<PlayerGame> toSave = requestgames.stream()
-            .filter(game -> !existPlayerGames.contains(game.getId()))
+            .filter(game -> existPlayerGames.stream().noneMatch(pg -> pg.getGame().getId().equals(game.getId())))
             .map(game -> new PlayerGame(player, game))
             .toList();
 
