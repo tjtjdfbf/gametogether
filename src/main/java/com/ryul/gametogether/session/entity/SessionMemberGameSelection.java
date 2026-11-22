@@ -12,6 +12,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @Entity 
 @Table (
@@ -21,6 +23,7 @@ import jakarta.validation.constraints.NotNull;
 			columnNames = {"session_member_id", "game_id"}
 		)
 )
+@NoArgsConstructor (access = AccessLevel.PROTECTED)
 public class SessionMemberGameSelection {
 	@Id 
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -35,4 +38,9 @@ public class SessionMemberGameSelection {
 	@ManyToOne (fetch = FetchType.LAZY)
 	@JoinColumn (name = "game_id", nullable = false)
 	private Game game;
+
+	public SessionMemberGameSelection(SessionMember member, Game game) {
+		this.member = member;
+		this.game = game;
+	}
 }

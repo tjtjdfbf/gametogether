@@ -6,10 +6,15 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
+    show-sql: false
     hibernate:
       ddl-auto: create
     # 테이블 생성 후 data.sql 실행토록
     defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
   sql:
     init:
       mode: always
@@ -20,4 +25,7 @@ security:
     access-token-ttl-minutes: 1440
 logging:
   level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
     org.springframework.security: DEBUG
+    
