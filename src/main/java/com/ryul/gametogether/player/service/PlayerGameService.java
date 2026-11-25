@@ -8,6 +8,8 @@ import com.ryul.gametogether.game.entity.Game;
 import com.ryul.gametogether.game.repository.GameRepository;
 import com.ryul.gametogether.player.DTO.AddPlayerGameRequest;
 import com.ryul.gametogether.player.DTO.AddPlayerGameResponse;
+import com.ryul.gametogether.player.DTO.UpdateTogetherRequest;
+import com.ryul.gametogether.player.DTO.UpdateTogetherResponse;
 import com.ryul.gametogether.player.entity.Player;
 import com.ryul.gametogether.player.entity.PlayerGame;
 import com.ryul.gametogether.player.repository.PlayerGameRepository;
@@ -28,8 +30,7 @@ public class PlayerGameService {
         // 요청 받은 게임 id 추출
         List<Long> gameIds = request.gameIds().stream().distinct().toList();
 
-        // 요청에 기반한 게임 목록 추출
-        // 존재하지 않는 id는 자동 제외
+        // 요청에 기반한 게임 목록 추출. 존재하지 않는 id는 자동 제외
         List<Game> requestgames = gameRepository.findAllById(gameIds);
 
         // 중복 게임 리스트 = existPlayerGames
@@ -58,5 +59,19 @@ public class PlayerGameService {
             gameInfos.size(),
             gameInfos
         );
+    }
+
+    public UpdateTogetherResponse updateTogether(UpdateTogetherRequest request, Long playerId) {
+        // 어느 유저의 라이브러리인가?
+
+        // 요청 내 게임 id들의 중복 제거
+
+        // OnTogether 적용 로직
+
+        // OffTogether 적용 로직
+
+        
+
+        return null;
     }
 }

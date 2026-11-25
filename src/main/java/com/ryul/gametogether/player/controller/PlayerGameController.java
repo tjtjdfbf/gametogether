@@ -4,13 +4,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ryul.gametogether.player.DTO.AddPlayerGameRequest;
 import com.ryul.gametogether.player.DTO.AddPlayerGameResponse;
+import com.ryul.gametogether.player.DTO.UpdateTogetherRequest;
+import com.ryul.gametogether.player.DTO.UpdateTogetherResponse;
 import com.ryul.gametogether.player.service.PlayerGameService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -36,7 +41,18 @@ public class PlayerGameController {
 
             AddPlayerGameResponse response = playerGameService.addGames(request, playerId);
     
-            return ResponseEntity.ok(response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
+    @PatchMapping ("/player/my/games/together")
+    public ResponseEntity<UpdateTogetherResponse> updateTogether(
+        @AuthenticationPrincipal Jwt jwt,
+        @Valid @RequestBody UpdateTogetherRequest request)
+        {
+            Long playerId = Long.valueOf(jwt.getSubject());
+
+            UpdateTogetherResponse response;
+
+        return ResponseEntity.ok(null);
+    }
 }

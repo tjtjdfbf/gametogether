@@ -62,9 +62,6 @@ public class SessionController {
 	) {
 		Long playerId = Long.valueOf(jwt.getSubject());
 
-		System.out.println("게임 아이디 테스트!!!!!!!!! : "+request.gameIds());
-		System.out.println("시간 테스트!!!!!!!!! : "+request.availableTimes());
-
 		sessionService.patchSession(playerId, sessionId, request);
 
 		return ResponseEntity.ok(null);
